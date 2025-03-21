@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Gaussian splatting viewer</title>
+    </head>
+    <body>
+        <div id="gaussian-container"></div>
+
+        <script type="module">
+            //import * as THREE from "https://unpkg.com/three@latest/build/three.module.js";
+            import * as GaussianSplats3D from "https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.7/+esm";
+
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            const filename = getQueryParam("filename");
+
+            const viewer = new GaussianSplats3D.Viewer({
+                cameraUp: [0, -1, -0.6],
+                initialCameraPosition: [-1, -4, 6],
+                initialCameraLookAt: [0, 4, 0],
+            });
+            viewer
+                .addSplatScene("./chiostro s nicolo.ply", {
+                    splatAlphaRemovalThreshold: 5,
+                    showLoadingUI: true,
+                    position: [0, 1, 0],
+                    rotation: [0, 0, 0, 1],
+                    scale: [1.5, 1.5, 1.5],
+                })
+                .then(() => {
+                    viewer.start();
+                });
+        </script>
+    </body>
+</html>

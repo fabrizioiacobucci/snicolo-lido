@@ -1,0 +1,28 @@
+{
+    "name": "vue-bim-app",
+    "version": "1.0.0",
+    "description": "A Vue.js application for visualizing Bimdata IFC models using Ark-Bim plugins.",
+    "main": "src/main.js",
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint"
+    },
+    "dependencies": {
+        "@bimdata/viewer": "^2.8.0",
+        "vue": "^3.0.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.26.10",
+        "@babel/preset-env": "^7.26.9",
+        "@vue/cli-service": "~5.0.8",
+        "babel-loader": "^8.2.2",
+        "eslint": "^7.0.0",
+        "eslint-plugin-vue": "^7.0.0",
+        "vue-loader": "^17.0.1",
+        "webpack": "^5.98.0",
+        "webpack-cli": "^6.0.1"
+    },
+    "author": "",
+    "license": "MIT"
+}
