@@ -1,58 +1,84 @@
-# Vue BIM Application
+# Vue BIMData + Gaussian Splatting Demo
 
-This project is a Vue.js application designed to visualize BIM data using the Ark-Bim plugins for rendering IFC models.
+This repository contains a small Vue.js project that integrates a BIMData viewer with two custom plugins:
 
-## Project Structure
+* **Isolate Elements** – adapted from the ARKBim plugin to quickly hide and show IFC elements by type.
+* **Gaussian Splatting** – opens an external page to inspect the model rendered using the [Gaussian Splatting 3D](https://github.com/mkkellogg/gaussian-splats-3d) library.
+
+The application demonstrates how to connect to BIMData, display an IFC model, and extend the viewer with additional tools.
+
+## Project Overview
 
 ```
-vue-bim-app
-├── public
-|   |-- icons ...
-|   |-- chiostro s nicolo.ply       # Gaussian splatting version of model
-|   |-- gaussian-viewer.html        # Gaussian splatting viewer
-│   ├── index.html                  # Main HTML file for the application
-├── src
-│   ├── assets                      # Static assets (images, fonts, styles)
-│   ├── components
-│   │   └── BimViewer.vue           # Component for rendering BIM models
-|   |   |-- GaussianSplatting.vue   # Gaussian splatting plugin
-|   |   |-- IsolateElements.vue     # ARKBim Isolate Elements plugin
-│   ├── App.vue                     # Root Vue component
-│   ├── main.js                     # Entry point of the Vue application
-├── package.json                    # npm configuration file
-├── README.md                       # Project documentation
-└── vue.config.js                   # Vue CLI configuration
+vue-bim-app/
+├── public/
+│   ├── icons/                 # Icons used for the plugins
+│   ├── chiostro s nicolo.ply  # Gaussian Splatting model sample
+│   ├── gaussian-viewer.html   # External viewer opened by the plugin
+│   └── index.html             # Entry point for the Vue application
+├── src/
+│   ├── components/
+│   │   ├── BimViewer.vue      # Initializes @bimdata/viewer and registers plugins
+│   │   ├── GaussianSplatting.vue  # Plugin opening gaussian-viewer.html
+│   │   └── IsolateElements.vue    # Plugin isolating element categories
+│   ├── App.vue
+│   └── main.js
+├── vue.config.js              # Vue CLI configuration
+└── package.json
 ```
 
-## Setup Instructions
+### Implementation Notes
 
-1. **Clone the repository:**
+`BimViewer.vue` creates the BIMData viewer with a specific cloud, project and model. It registers the two plugins defined in `src/components`. The file currently contains an example `accessToken`; replace it with your own BIMData token in order to load your data.
 
-    ```
-    git clone <repository-url>
-    cd vue-bim-app
-    ```
+`gaussian-viewer.html` imports `@mkkellogg/gaussian-splats-3d` from a CDN and loads the sample `.ply` file located in `public`. The `GaussianSplatting.vue` plugin simply opens this page in a new tab when activated from the viewer toolbar.
 
-2. **Install dependencies:**
+## Getting Started
 
-    ```
-    npm install
-    ```
+1. **Install dependencies**
 
-3. **Run the application:**
+   ```bash
+   npm install
+   ```
 
-    ```
-    npm run serve
-    ```
+2. **Run the development server**
 
-4. **Open your browser:**
-   Navigate to `http://localhost:8080` to view the application.
+   ```bash
+   npm run serve
+   ```
 
-## Usage Guidelines
+   The application is now available at [http://localhost:8080](http://localhost:8080).
 
--   The `BimViewer` component is responsible for loading and displaying IFC models. Ensure that you have the necessary Ark-Bim plugins installed and configured.
--   You can customize the application by modifying the components in the `src/components` directory and adding any additional assets in the `src/assets` directory.
+3. **Replace the BIMData token** (optional)
+
+   Edit `src/components/BimViewer.vue` and set `accessToken` to your own token from the BIMData platform so the viewer can load your IFC model.
+
+## Building for Production
+
+Create a static build with:
+
+```bash
+npm run build
+```
+
+The generated files will be placed in the `dist/` directory.
+
+## Hosting Options
+
+### Node Runtime Hosting
+
+On services like DigitalOcean you can run the application behind a small Node.js web server. After building the project, serve the `dist/` folder with any static file server, for example:
+
+```bash
+npx serve -s dist
+```
+
+Configure your hosting provider to run this command (or your preferred server) so that `dist/` is served over HTTPS.
+
+### Static Hosting
+
+Because the application is a standard Vue build, the contents of `dist/` can be deployed on any static hosting provider (GitHub Pages, Netlify, etc.). Simply upload the files in `dist/` to your chosen service.
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
+This project is released under the MIT License.
